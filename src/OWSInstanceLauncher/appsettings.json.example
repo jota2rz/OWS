@@ -1,0 +1,67 @@
+{
+  "AllowedHosts": "*",
+  "Serilog": {
+    "Using": [
+      "Serilog.Sinks.Console",
+      "Serilog.Sinks.Http"
+    ],
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "Microsoft": "Information",
+        "Microsoft.Hosting.Lifetime": "Information",
+        "System": "Information"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console"
+      },
+      {
+        "Name": "DurableHttpUsingFileSizeRolledBuffers",
+        "Args": {
+          "requestUri": "http://localhost:50000",
+          "batchFormatter": "Serilog.Sinks.Http.BatchFormatters.ArrayBatchFormatter, Serilog.Sinks.Http",
+          "textFormatter": "Serilog.Formatting.Elasticsearch.ElasticsearchJsonFormatter, Serilog.Formatting.Elasticsearch"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext", "WithExceptionDetails", "WithMachineName", "WithCorrelationId" ],
+    "Properties": {
+      "Application": "OWSInstanceLauncher"
+    }
+  },
+  "RabbitMQOptions": {
+    "RabbitMQHostName": "localhost",
+    "RabbitMQPort": 5672,
+    "RabbitMQUserName": "dev",
+    "RabbitMQPassword": "test"
+  },
+  "OWSInstanceLauncherOptions": {
+    "OWSAPIKey": "7d017243-e285-4a2c-8450-de7e97314275",
+    "LauncherGuid": "",
+    "ServerIP": "127.0.0.1",
+    "MaxNumberOfInstances": 10,
+    "InternalServerIP": "127.0.0.1",
+    "StartingInstancePort": 7778,
+    "IsServerEditor": false,
+    "PathToDedicatedServer": "D:\\HubWorldMMO\\Binaries\\Win64\\OWSHubWorldMMOServer.exe",
+    "RunServerHealthMonitoringFrequencyInSeconds": 30,
+    "PathToUProject": "D:\\HubWorldMMO\\OWSHubWorldMMO.uproject",
+    "UseServerLog": true,
+    "UseNoSteam": true,
+    "OtherCustomFlags": ""
+  },
+  "OWSAPIPathConfig": {
+    "InternalPublicApiURL": "http://localhost:44302/",
+    "InternalInstanceManagementApiURL": "http://localhost:44328/",
+    "InternalCharacterPersistenceApiURL": "http://localhost:44323/"
+  },
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://localhost:8181"
+      }
+    }
+  }
+}
